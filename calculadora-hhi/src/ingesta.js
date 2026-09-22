@@ -66,7 +66,7 @@ export function detectarDelimitador(texto) {
   return mejor;
 }
 
-/** Parsea texto CSV ya decodificado. Se expone aparte para poder cargar los ejemplos embebidos. */
+/** Parsea texto CSV ya decodificado. Se expone aparte para poder parsear texto que no viene de un File. */
 export function parsearTextoCSV(texto, opciones = {}) {
   const delimiter = detectarDelimitador(texto);
   const resultados = Papa.parse(texto, { delimiter, skipEmptyLines: 'greedy' });

@@ -1,5 +1,6 @@
 // umbrales-art48.js — verificación de los umbrales de notificación obligatoria
-// del art. 48 inciso 2° del DL 211. Lógica pura, sin DOM.
+// del art. 48 inciso 1°, letras a) y b), del DL 211, con los montos fijados por la
+// Resolución Exenta N° 157/2019 de la FNE (vigente desde el 09-08-2019). Lógica pura, sin DOM.
 //
 // ⚠️ ATENCIÓN JURÍDICA: este cálculo NO usa las ventas del mercado relevante que
 // se cargan en la calculadora de IHH. El art. 48 se refiere a las ventas TOTALES
@@ -8,7 +9,8 @@
 // módulo recibe sus propios montos y nunca los toma del archivo de ventas.
 
 export const ART48 = {
-  norma: 'Art. 48 inciso 2° DL 211',
+  norma: 'Art. 48 inciso 1°, letras a) y b), DL 211',
+  resolucion: 'Resolución Exenta N° 157/2019 FNE',
   umbralConjuntoUF: 2_500_000,
   umbralIndividualUF: 450_000,
   minAgentesSobreIndividual: 2,
@@ -77,7 +79,7 @@ export function explicarArt48(resultado) {
   partes.push(
     resultado.debeNotificarse
       ? 'Ambos requisitos son copulativos y ambos se cumplen: la operación quedaría sujeta a notificación obligatoria.'
-      : 'Los requisitos son copulativos: al no cumplirse ambos, la operación no quedaría sujeta a notificación obligatoria por esta vía (sin perjuicio de la notificación voluntaria del art. 48 inciso 9°).'
+      : 'Los requisitos son copulativos: al no cumplirse ambos, la operación no quedaría sujeta a notificación obligatoria por esta vía (sin perjuicio de que pueda notificarse voluntariamente, conforme al art. 48, y de las facultades de investigación de la FNE respecto de operaciones no notificadas).'
   );
   return partes;
 }

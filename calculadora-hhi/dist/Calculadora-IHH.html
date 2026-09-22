@@ -184,9 +184,6 @@ h3 { font-size: 0.92rem; margin: 0 0 6px; }
   border-radius: var(--radio);
   padding: 16px 18px;
 }
-.opcion-alternativa label { display: block; font-size: 0.85rem; margin-bottom: 4px; }
-.opcion-alternativa select { width: 100%; }
-.separador { border: none; border-top: 1px solid var(--color-borde); margin: 16px 0; }
 
 select, input[type="text"], input[type="number"] {
   font-family: inherit;
@@ -512,14 +509,6 @@ select:focus, input:focus { outline: 2px solid var(--color-primario); outline-of
         </div>
 
         <div class="opcion-alternativa">
-          <h3>¿No tiene el archivo a mano?</h3>
-          <label for="select-ejemplo">Pruebe con un caso de ejemplo:</label>
-          <select id="select-ejemplo"></select>
-          <p id="descripcion-ejemplo" class="nota"></p>
-          <button id="btn-ejemplo" class="boton boton--secundario" type="button">Cargar este ejemplo</button>
-
-          <hr class="separador">
-
           <h3>¿Son pocas empresas?</h3>
           <p class="nota">Escríbalas directamente, sin archivo.</p>
           <button id="btn-modo-manual" class="boton boton--secundario" type="button">Escribir los datos a mano</button>
@@ -724,6 +713,12 @@ select:focus, input:focus { outline: 2px solid var(--color-primario); outline-of
             ⚠️ <strong>Este cálculo no usa los datos cargados arriba.</strong> El art. 48 se refiere a las
             <strong>ventas totales en Chile</strong> de cada agente económico en el ejercicio anterior, en
             <em>todos</em> los mercados en que opere, no solo en el mercado relevante analizado. Ingréselas aquí aparte.
+          </p>
+          <p class="nota">
+            Cada agente económico se computa con su grupo empresarial (matriz, filiales y entidades bajo
+            control común). En una adquisición de control, del lado vendedor se consideran solo las ventas
+            del negocio adquirido, no las del vendedor. Umbrales según la Resolución Exenta N° 157/2019 de la
+            FNE: verifique que siga vigente antes de usar el resultado.
           </p>
           <label class="campo-uf">
             Valor de la UF al 31 de diciembre del ejercicio
@@ -1294,7 +1289,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
   // src/umbrales-art48.js
   var ART48 = {
-    norma: "Art. 48 inciso 2\xB0 DL 211",
+    norma: "Art. 48 inciso 1\xB0, letras a) y b), DL 211",
+    resolucion: "Resoluci\xF3n Exenta N\xB0 157/2019 FNE",
     umbralConjuntoUF: 25e5,
     umbralIndividualUF: 45e4,
     minAgentesSobreIndividual: 2
@@ -1343,7 +1339,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       `Agentes que individualmente alcanzan ${fmtUF(ART48.umbralIndividualUF)} UF: ${resultado.sobreIndividual} (${resultado.cumpleIndividual ? "se cumple" : "no se cumple"} el m\xEDnimo de ${ART48.minAgentesSobreIndividual}).`
     );
     partes.push(
-      resultado.debeNotificarse ? "Ambos requisitos son copulativos y ambos se cumplen: la operaci\xF3n quedar\xEDa sujeta a notificaci\xF3n obligatoria." : "Los requisitos son copulativos: al no cumplirse ambos, la operaci\xF3n no quedar\xEDa sujeta a notificaci\xF3n obligatoria por esta v\xEDa (sin perjuicio de la notificaci\xF3n voluntaria del art. 48 inciso 9\xB0)."
+      resultado.debeNotificarse ? "Ambos requisitos son copulativos y ambos se cumplen: la operaci\xF3n quedar\xEDa sujeta a notificaci\xF3n obligatoria." : "Los requisitos son copulativos: al no cumplirse ambos, la operaci\xF3n no quedar\xEDa sujeta a notificaci\xF3n obligatoria por esta v\xEDa (sin perjuicio de que pueda notificarse voluntariamente, conforme al art. 48, y de las facultades de investigaci\xF3n de la FNE respecto de operaciones no notificadas)."
     );
     return partes;
   }
@@ -1747,8 +1743,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       (e) => `<tr><td>${esc(e.nombre)}</td><td class="num">${e.numActores}</td><td class="num">${fmtIhh2(e.hhiPre)}</td><td class="num">${fmtIhh2(e.hhiPost)}</td><td class="num">${fmtIhh2(e.delta)}</td><td>${ETIQUETA_VEREDICTO[e.veredicto].texto}</td></tr>`
     ).join("")}</tbody>
        </table>` : "";
-    const bloqueArt48 = meta.art48 ? `<h2>Umbrales de notificaci\xF3n (art. 48 DL 211)</h2>
-       <p class="nota">Calculado con montos de ventas totales en Chile ingresados por el usuario, independientes del archivo de ventas del mercado relevante. Valor UF utilizado: ${fmtNum2(meta.art48.valorUF)}.</p>
+    const bloqueArt48 = meta.art48 ? `<h2>Umbrales de notificaci\xF3n (${esc(ART48.norma)})</h2>
+       <p class="nota">Calculado con montos de ventas totales en Chile ingresados por el usuario, independientes del archivo de ventas del mercado relevante. Valor UF utilizado: ${fmtNum2(meta.art48.valorUF)}. Umbrales seg\xFAn la ${esc(ART48.resolucion)}.</p>
        <table>
          <thead><tr><th>Agente</th><th class="num">Ventas en Chile</th><th class="num">UF</th><th>\xBFSobre 450.000 UF?</th></tr></thead>
          <tbody>${meta.art48.detalle.map(
@@ -1853,31 +1849,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     descargarBlob(html, nombreConFecha("informe-ihh", "html"), "text/html;charset=utf-8");
   }
 
-  // src/ejemplos.js
-  var EJEMPLOS = [
-    {
-      id: "supermercados",
-      nombre: "Supermercados (archivo limpio)",
-      archivo: "supermercados.csv",
-      descripcion: "7 cadenas, CSV bien formado. \xDAtil para ver el flujo completo sin ruido.",
-      csv: "Nombre_Empresa,Ventas_Totales\nCencosud S.A.,4500000000\nWalmart Chile S.A.,4200000000\nSMU S.A.,2100000000\nTottus Chile S.A.,1200000000\nSupermercados Montserrat S.A.,650000000\nEkono S.A.,420000000\nSupermercado San Francisco Ltda.,180000000\n"
-    },
-    {
-      id: "isapres",
-      nombre: "Isapres (archivo limpio)",
-      archivo: "isapres.csv",
-      descripcion: "6 aseguradoras. Mercado m\xE1s concentrado que el de supermercados.",
-      csv: "Aseguradora,Ventas\nIsapre Consalud S.A.,980000000\nIsapre Banm\xE9dica S.A.,870000000\nIsapre Cruz Blanca S.A.,650000000\nIsapre Colmena Golden Cross S.A.,540000000\nIsapre Nueva Masvida S.A.,210000000\nIsapre Vida Tres S.A.,150000000\n"
-    },
-    {
-      id: "sucio",
-      nombre: 'Cemento (archivo "sucio", como los reales)',
-      archivo: "sucio.csv",
-      descripcion: 'Reproduce a prop\xF3sito los defectos t\xEDpicos: dos filas de t\xEDtulo antes de la tabla, separador ";", formato num\xE9rico chileno, s\xEDmbolo $, nombres inconsistentes de una misma empresa, una filial que hay que agrupar a mano, una fila con ventas negativas y una fila de totales.',
-      csv: 'Informe interno - Mercado del Cemento 2025\nConfidencial - uso interno del estudio\nRaz\xF3n Social;Ventas\nEMPRESA ALFA S.A.;"$ 4.500.000"\nEmpresa Alfa SA;1.200.000\nComercial Beta Ltda.;3.200.000,50\ncomercial beta ltda;800000\nDistribuidora Gamma SpA;1.800.000\nAlfa Retail SpA;500.000\nImportadora Delta S.A.;-200000\nCompetidor \xC9psilon Ltda.;950000\nProveedora Zeta Limitada;310000\n;\nTOTAL;12150000\n'
-    }
-  ];
-
   // src/main.js
   var estado = {
     origenNombre: null,
@@ -1916,9 +1887,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     btnCerrarAyuda: $("btn-cerrar-ayuda"),
     dropzone: $("dropzone"),
     inputArchivo: $("input-archivo"),
-    selectEjemplo: $("select-ejemplo"),
-    descripcionEjemplo: $("descripcion-ejemplo"),
-    btnEjemplo: $("btn-ejemplo"),
     btnModoManual: $("btn-modo-manual"),
     panelManual: $("panel-manual"),
     cuerpoManual: $("cuerpo-manual"),
@@ -2200,16 +2168,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       );
     }
   }
-  function cargarEjemplo() {
-    mostrarError("");
-    const ejemplo = EJEMPLOS.find((e) => e.id === el.selectEjemplo.value) || EJEMPLOS[0];
-    try {
-      estado.archivo = null;
-      adoptarLectura(parsearTextoCSV(ejemplo.csv), `${ejemplo.archivo} (ejemplo: ${ejemplo.nombre})`);
-    } catch (e) {
-      mostrarError(`No se pudo cargar el ejemplo: ${e.message}`);
-    }
-  }
   function abrirManual(prefijo = null) {
     estado.manual = prefijo && prefijo.length ? prefijo : [{ nombre: "", ventas: "" }, { nombre: "", ventas: "" }, { nombre: "", ventas: "" }];
     el.panelManual.hidden = false;
@@ -2484,19 +2442,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         el.inputArchivo.click();
       }
     });
-    EJEMPLOS.forEach((ej) => {
-      const opt = document.createElement("option");
-      opt.value = ej.id;
-      opt.textContent = ej.nombre;
-      el.selectEjemplo.appendChild(opt);
-    });
-    const pintarDescripcionEjemplo = () => {
-      const ej = EJEMPLOS.find((e) => e.id === el.selectEjemplo.value);
-      el.descripcionEjemplo.textContent = ej ? ej.descripcion : "";
-    };
-    el.selectEjemplo.addEventListener("change", pintarDescripcionEjemplo);
-    pintarDescripcionEjemplo();
-    el.btnEjemplo.addEventListener("click", cargarEjemplo);
     el.btnModoManual.addEventListener("click", () => abrirManual());
     el.btnAgregarFila.addEventListener("click", () => {
       estado.manual.push({ nombre: "", ventas: "" });

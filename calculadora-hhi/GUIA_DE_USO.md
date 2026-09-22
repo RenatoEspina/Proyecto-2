@@ -61,12 +61,12 @@ Si aun así la lectura sale mal, abra **«¿La tabla se leyó mal?»**: ahí pue
 mano la hoja del Excel, la fila de los títulos y qué columna es la de empresa y cuál la
 de ventas. Debajo verá una vista previa con las columnas elegidas resaltadas en azul.
 
-**¿No tiene archivo?** Hay dos alternativas en la misma pantalla:
+**¿No tiene archivo?** Use **«Escribir los datos a mano»**, si son pocas empresas.
+También puede pegar dos columnas copiadas directamente desde Excel en la primera casilla.
 
-- **Cargar un ejemplo** (supermercados, isapres o un archivo «sucio» de cemento que
-  reproduce todos los defectos anteriores). Sirve para practicar y para la demostración.
-- **Escribir los datos a mano**, si son pocas empresas. También puede pegar dos columnas
-  copiadas directamente desde Excel en la primera casilla.
+**Para practicar**, la carpeta `datos-ejemplo/` trae tres archivos ficticios
+(`supermercados.csv`, `isapres.csv` y `sucio.csv`, con empresas y cifras inventadas; este último con todos los defectos
+anteriores). Cárguelos como cualquier otro archivo, arrastrándolos al recuadro.
 
 ---
 
@@ -188,13 +188,17 @@ informe exportado.
 ## 7. Complemento: ¿hay que notificar la operación?
 
 Al final de la pantalla, el bloque **«¿Hay que notificar la operación a la FNE?»**
-verifica los umbrales del art. 48 inciso 2° del DL 211: UF 2.500.000 conjuntas y
-UF 450.000 individuales en al menos dos de los agentes, requisitos copulativos.
+verifica los umbrales del art. 48 inciso 1°, letras a) y b), del DL 211, fijados por la
+Resolución Exenta N° 157/2019 de la FNE: UF 2.500.000 conjuntas y UF 450.000
+individuales en al menos dos de los agentes, requisitos copulativos.
 
 ⚠️ **Ese cálculo no usa los datos cargados arriba, y es deliberado.** El art. 48 se
 refiere a las ventas **totales en Chile** de cada agente en *todos* los mercados en que
 opere, no a sus ventas en el mercado relevante analizado. Por eso los montos se ingresan
 aparte, junto con el valor de la UF al 31 de diciembre del ejercicio.
+
+Cada agente se computa con su grupo empresarial. En una adquisición de control, del
+lado vendedor cuentan solo las ventas del negocio adquirido, no las del vendedor.
 
 Verifique siempre el valor de la UF y el ejercicio aplicable contra la fuente oficial.
 

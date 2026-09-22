@@ -41,14 +41,6 @@
         </div>
 
         <div class="opcion-alternativa">
-          <h3>¿No tiene el archivo a mano?</h3>
-          <label for="select-ejemplo">Pruebe con un caso de ejemplo:</label>
-          <select id="select-ejemplo"></select>
-          <p id="descripcion-ejemplo" class="nota"></p>
-          <button id="btn-ejemplo" class="boton boton--secundario" type="button">Cargar este ejemplo</button>
-
-          <hr class="separador">
-
           <h3>¿Son pocas empresas?</h3>
           <p class="nota">Escríbalas directamente, sin archivo.</p>
           <button id="btn-modo-manual" class="boton boton--secundario" type="button">Escribir los datos a mano</button>
@@ -253,6 +245,12 @@
             ⚠️ <strong>Este cálculo no usa los datos cargados arriba.</strong> El art. 48 se refiere a las
             <strong>ventas totales en Chile</strong> de cada agente económico en el ejercicio anterior, en
             <em>todos</em> los mercados en que opere, no solo en el mercado relevante analizado. Ingréselas aquí aparte.
+          </p>
+          <p class="nota">
+            Cada agente económico se computa con su grupo empresarial (matriz, filiales y entidades bajo
+            control común). En una adquisición de control, del lado vendedor se consideran solo las ventas
+            del negocio adquirido, no las del vendedor. Umbrales según la Resolución Exenta N° 157/2019 de la
+            FNE: verifique que siga vigente antes de usar el resultado.
           </p>
           <label class="campo-uf">
             Valor de la UF al 31 de diciembre del ejercicio

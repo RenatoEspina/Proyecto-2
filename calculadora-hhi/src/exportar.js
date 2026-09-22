@@ -10,6 +10,7 @@ import {
   citaNormativa,
   GUIA_FNE,
 } from './clasificador-fne.js';
+import { ART48 } from './umbrales-art48.js';
 
 function descargarBlob(contenido, nombreArchivo, tipo) {
   const blob = new Blob([contenido], { type: tipo });
@@ -130,8 +131,8 @@ export function exportarInformeHTML(resultado, meta = {}) {
     : '';
 
   const bloqueArt48 = meta.art48
-    ? `<h2>Umbrales de notificación (art. 48 DL 211)</h2>
-       <p class="nota">Calculado con montos de ventas totales en Chile ingresados por el usuario, independientes del archivo de ventas del mercado relevante. Valor UF utilizado: ${fmtNum(meta.art48.valorUF)}.</p>
+    ? `<h2>Umbrales de notificación (${esc(ART48.norma)})</h2>
+       <p class="nota">Calculado con montos de ventas totales en Chile ingresados por el usuario, independientes del archivo de ventas del mercado relevante. Valor UF utilizado: ${fmtNum(meta.art48.valorUF)}. Umbrales según la ${esc(ART48.resolucion)}.</p>
        <table>
          <thead><tr><th>Agente</th><th class="num">Ventas en Chile</th><th class="num">UF</th><th>¿Sobre 450.000 UF?</th></tr></thead>
          <tbody>${meta.art48.detalle

@@ -47,13 +47,12 @@ normalización de datos sucios, la agrupación de filiales y los umbrales del ar
 npm run build      # genera dist/Calculadora-IHH.html
 ```
 
-El build regenera `src/ejemplos.js` desde `datos-ejemplo/*.csv`, empaqueta los módulos
-con esbuild e incrusta el CSS, las librerías y los datos de ejemplo en un solo HTML.
+El build empaqueta los módulos con esbuild e incrusta el CSS y las librerías en un solo HTML.
 **Ese archivo es el entregable para el equipo de Derecho**; el código modular sigue
 siendo la fuente de verdad y es lo que se prueba y se audita.
 
 Hay que volver a ejecutarlo después de cualquier cambio en `src/`, `style.css`,
-`index.html` o `datos-ejemplo/`.
+o `index.html`.
 
 ---
 
@@ -75,10 +74,9 @@ calculadora-hhi/
 │   ├── umbrales-art48.js       # ⭐ umbrales de notificación del art. 48 DL 211
 │   ├── ui-tabla.js             # tablas y paneles (solo DOM)
 │   ├── ui-grafico.js           # gráfico de participación (Chart.js)
-│   ├── exportar.js             # informe HTML imprimible + CSV
-│   └── ejemplos.js             # GENERADO por build.js — no editar a mano
+│   └── exportar.js             # informe HTML imprimible + CSV
 ├── test/                       # Vitest
-└── datos-ejemplo/              # supermercados.csv, isapres.csv, sucio.csv
+└── datos-ejemplo/              # supermercados.csv, isapres.csv, sucio.csv (cárguelos con «Arrastre aquí su archivo»)
 ```
 
 Los módulos marcados con ⭐ son lógica de negocio pura: no tocan el DOM, reciben datos y
@@ -124,3 +122,19 @@ remedios; y cualquier juicio sobre las circunstancias especiales del párrafo 36
 > El verificador del art. 48 estaba listado en el plan como extensión futura (§12.1) y se
 > adelantó a esta versión por su valor práctico. Es un cálculo independiente del análisis
 > de IHH y puede retirarse sin afectar al resto.
+
+---
+
+## Licencias de terceros
+
+Las librerías de `vendor/` se redistribuyen sin modificar, con sus avisos de copyright, y
+quedan también incrustadas en `dist/Calculadora-IHH.html`:
+
+| Librería | Versión | Licencia |
+|---|---|---|
+| [Papa Parse](https://github.com/mholt/PapaParse) | 5.4.1 | MIT |
+| [SheetJS Community Edition](https://sheetjs.com) (`xlsx`) | 0.18.5 | Apache 2.0 |
+| [Chart.js](https://www.chartjs.org) | 4.4.4 | MIT |
+
+Los archivos de `datos-ejemplo/` son ficticios: las empresas y las cifras de ventas son
+inventadas y no representan a ningún agente real.

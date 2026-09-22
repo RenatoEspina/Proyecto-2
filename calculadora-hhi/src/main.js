@@ -1,7 +1,7 @@
 // main.js — orquestación y estado de la aplicación. Conecta ingesta, normalización,
 // motor de cálculo, clasificador FNE y las vistas. Único módulo con estado mutable.
 
-import { leerArchivo, parsearTextoCSV, extraerTabla } from './ingesta.js';
+import { leerArchivo, extraerTabla } from './ingesta.js';
 import { consolidarActores, detectarColumnas, aplicarGrupos, parsearNumero } from './normalizacion.js';
 import { analizarOperacion } from './motor-hhi.js';
 import {
@@ -28,7 +28,6 @@ import {
 } from './ui-tabla.js';
 import { renderGrafico, graficoComoPNG } from './ui-grafico.js';
 import { exportarCSV, exportarInformeHTML } from './exportar.js';
-import { EJEMPLOS } from './ejemplos.js';
 
 // ─────────────────────────────── Estado ───────────────────────────────
 
@@ -65,9 +64,6 @@ const el = {
 
   dropzone: $('dropzone'),
   inputArchivo: $('input-archivo'),
-  selectEjemplo: $('select-ejemplo'),
-  descripcionEjemplo: $('descripcion-ejemplo'),
-  btnEjemplo: $('btn-ejemplo'),
   btnModoManual: $('btn-modo-manual'),
 
   panelManual: $('panel-manual'),
@@ -415,17 +411,6 @@ async function procesarArchivo(file, nombreParaMostrar, opciones = {}) {
   }
 }
 
-function cargarEjemplo() {
-  mostrarError('');
-  const ejemplo = EJEMPLOS.find((e) => e.id === el.selectEjemplo.value) || EJEMPLOS[0];
-  try {
-    estado.archivo = null;
-    adoptarLectura(parsearTextoCSV(ejemplo.csv), `${ejemplo.archivo} (ejemplo: ${ejemplo.nombre})`);
-  } catch (e) {
-    mostrarError(`No se pudo cargar el ejemplo: ${e.message}`);
-  }
-}
-
 // ─────────────────────────────── Ingreso manual ───────────────────────────────
 
 function abrirManual(prefijo = null) {
@@ -754,21 +739,6 @@ function conectarEventos() {
       el.inputArchivo.click();
     }
   });
-
-  // Ejemplos
-  EJEMPLOS.forEach((ej) => {
-    const opt = document.createElement('option');
-    opt.value = ej.id;
-    opt.textContent = ej.nombre;
-    el.selectEjemplo.appendChild(opt);
-  });
-  const pintarDescripcionEjemplo = () => {
-    const ej = EJEMPLOS.find((e) => e.id === el.selectEjemplo.value);
-    el.descripcionEjemplo.textContent = ej ? ej.descripcion : '';
-  };
-  el.selectEjemplo.addEventListener('change', pintarDescripcionEjemplo);
-  pintarDescripcionEjemplo();
-  el.btnEjemplo.addEventListener('click', cargarEjemplo);
 
   // Ingreso manual
   el.btnModoManual.addEventListener('click', () => abrirManual());
