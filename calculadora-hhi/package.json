@@ -1,0 +1,17 @@
+{
+  "name": "calculadora-hhi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Calculadora IHH para análisis de operaciones de concentración (prototipo, 100% en el navegador).",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build": "node build.js",
+    "serve": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5",
+    "vitest": "^2.1.4"
+  }
+}
